@@ -1,0 +1,75 @@
+/* Composant Sidebar principal */
+.Sidebar {
+  position: fixed;
+  top: 0;
+  left: 0; 
+  width: 60px; 
+  min-width: 60px;
+  height: 100vh;
+  background: #00a58f;
+  color: #fff;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  z-index: 1000;
+}
+
+.Sidebar--open {
+  width: 250px;
+}
+
+/* Image/logo */
+.Sidebar img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  transition: opacity 0.3s;
+}
+
+/* Liste de navigation */
+.Sidebar ul {
+  list-style: none;
+  padding: 20px 10px;
+  margin: 0;
+}
+
+/* Élément de liste */
+.Sidebar li {
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+/* Liens de la sidebar */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+  white-space: nowrap;
+}
+
+.sidebar-link:hover {
+  background-color: #444;
+  color: #90b325;
+}
+
+/* Icônes dans les liens */
+.sidebar-link .icon {
+  font-size: 20px;
+}
+
+/* Texte masqué si la sidebar est fermée */
+.Sidebar:not(.Sidebar--open) .text {
+  display: none;
+}
+
+/* Responsive: cacher bouton burger sur desktop si nécessaire */
+@media (min-width: 768px) {
+  .burger-button {
+    display: none;
+  }
+}

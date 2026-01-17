@@ -1,0 +1,6 @@
+{
+  "frontendUrl": "http://192.168.200.61:3000",
+  "backendUrl": "http://192.168.200.61:8000",
+  "timestamp": "20250827_171500",
+  "appName": "Gestion des Dangers"
+}

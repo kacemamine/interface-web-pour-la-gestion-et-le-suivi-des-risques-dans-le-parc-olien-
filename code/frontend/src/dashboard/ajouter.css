@@ -1,0 +1,93 @@
+.ajouter-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #2c3e50;
+  font-size: 2.2em;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+h2:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: #3498db;
+}
+
+.ajouter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.ajouter-form input,
+.ajouter-form select,
+.ajouter-form textarea {
+  padding: 12px 15px;
+  font-size: 1em;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  width: 100%;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+.ajouter-form input:focus,
+.ajouter-form select:focus,
+.ajouter-form textarea:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.ajouter-form input::placeholder,
+.ajouter-form textarea::placeholder {
+  color: #95a5a6;
+}
+
+.ajouter-form label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.ajouter-form button {
+  margin-top: 30px;
+  background-color: #3498db;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: 600;
+  width: 100%;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+}
+
+.ajouter-form button:hover {
+  background-color: #0056b3;
+}
+
+.retour {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  color: #007bff;
+  text-decoration: none;
+}

@@ -1,0 +1,18 @@
+fastapi==0.104.1
+uvicorn==0.24.0
+sqlalchemy==2.0.23
+aiomysql==0.2.0
+pydantic==2.5.1
+pydantic-core==2.14.3
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+pillow==10.2.0
+python-dotenv==1.0.0
+qrcode==7.4.2
+# Choisis UN SEUL client MySQL :
+# Si tu veux async : garde aiomysql ✅
+# Si tu veux client sync :
+# mysql-connector-python==8.3.0
+# OU
+# mysqlclient==2.2.0
