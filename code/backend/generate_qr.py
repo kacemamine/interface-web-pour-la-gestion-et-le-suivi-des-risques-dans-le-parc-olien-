@@ -2,7 +2,17 @@ import qrcode
 import json
 import os
 import sys
+import socket
 from datetime import datetime
+
+
+def get_local_ip():
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.connect(("8.8.8.8", 80))
+            return sock.getsockname()[0]
+    except OSError:
+        return "localhost"
 
 def generate_access_qr(ip_address=None):
     # S'assurer que le dossier QR existe
@@ -10,9 +20,8 @@ def generate_access_qr(ip_address=None):
     if not os.path.exists(qr_dir):
         os.makedirs(qr_dir)
 
-    # Utiliser l'IP fixe de l'application
     if not ip_address:
-        ip_address = "10.162.253.213"  # IP fixe de l'application
+        ip_address = get_local_ip()
 
     # Préparer les informations d'accès
     frontend_url = f"http://{ip_address}:3000"

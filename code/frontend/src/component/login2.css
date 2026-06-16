@@ -82,46 +82,49 @@
 .login button:disabled {
   background-color: #ffffff;
 }
+
 .action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 100px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
 }
+
 .action-btn {
-    padding: 12px 25px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 50px;
-    background-color: #4582b3;
-    color: rgb(246, 248, 229);
-    cursor: pointer;
-    transition: background-color 0.7s, box-shadow 0.3s, transform 0.2s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); 
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 50px;
+  background-color: #4582b3;
+  color: rgb(246, 248, 229);
+  cursor: pointer;
+  transition: background-color 0.7s, box-shadow 0.3s, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
 }
+
 .action-btn:hover {
-    background-color: #90b325;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
-    transform: translateY(-4px);
+  background-color: #90b325;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+  transform: translateY(-4px);
 }
+
 button {
-    transition: background-color 0.7s, box-shadow 0.5s, transform 0.2s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  transition: background-color 0.7s, box-shadow 0.5s, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
 }
 
 button:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
-    transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+  transform: translateY(-4px);
 }
+
 @media (max-width: 600px) {
-    .action-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .action-btn {
-        width: 80%;
-        margin-bottom: 30px;
-    }
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .action-btn {
+    width: 80%;
+    margin-bottom: 30px;
+  }
 }
-
-

@@ -1,61 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import './login2.css'; 
+import './login2.css';
 import { API_URL } from './config';
-import { generateAccessQR } from '../utils/qrGenerator';
 
 function Login2() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth();
-
-  const handleVisiteur = () => {
-    navigate('/dashboard/ajouter');
-  };
-
-  const handleGenerateQR = async () => {
-    try {
-      const { qrDataUrl } = await generateAccessQR();
-      const qrWindow = window.open('', '_blank');
-      qrWindow.document.write(`
-        <html>
-          <head>
-            <title>Code QR d'accès</title>
-            <style>
-              body {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-                margin: 0;
-                background-color: #f5f5f5;
-                font-family: Arial, sans-serif;
-              }
-              img {
-                max-width: 300px;
-                margin-bottom: 20px;
-              }
-              p {
-                color: #666;
-                text-align: center;
-              }
-            </style>
-          </head>
-          <body>
-            <h2>Scannez ce code QR pour accéder à l'application</h2>
-            <img src="${qrDataUrl}" alt="Code QR d'accès" />
-            <p>Le code QR et les informations d'accès ont été sauvegardés dans le dossier QR</p>
-          </body>
-        </html>
-      `);
-    } catch (error) {
-      console.error('Erreur lors de la génération du QR code:', error);
-      alert('Erreur lors de la génération du QR code');
-    }
-  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -100,7 +51,7 @@ function Login2() {
       }}
     >
       <div className="login">
-        <h1>Connexion à votre compte</h1>
+        <h1>Connexion a votre compte</h1>
         <form onSubmit={handleLogin}>
           {error && (
             <div className="error-message">
@@ -136,8 +87,6 @@ function Login2() {
             {loading ? 'Connexion en cours...' : 'Se connecter'}
           </button>
 
-
-
           <button
             type="button"
             className="visiteur-button"
@@ -145,16 +94,14 @@ function Login2() {
           >
             Signaler un danger (Mode Visiteur)
           </button>
-          
+
           <button
             type="button"
             className="admin-button"
             onClick={() => navigate('/admin/users')}
           >
-            Vous êtes admin ?
+            Vous etes admin ?
           </button>
-
-
         </form>
       </div>
     </div>

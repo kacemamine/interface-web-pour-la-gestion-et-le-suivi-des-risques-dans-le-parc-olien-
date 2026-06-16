@@ -1,6 +1,6 @@
 const getHostIP = () => {
-    // Utilisation de l'IP fixe du serveur
-    return '10.115.239.227';
+    const currentHost = window.location.hostname;
+    return currentHost || 'localhost';
 };
 
 const host = getHostIP();
