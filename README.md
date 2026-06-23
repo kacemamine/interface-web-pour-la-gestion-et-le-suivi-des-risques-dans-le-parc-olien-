@@ -1,4 +1,4 @@
-# Checklist - Gestion des dangers
+.# Checklist - Gestion des dangers
 
 Application web de gestion des dangers et des risques.
 
@@ -55,8 +55,8 @@ Le projet contient:
 Le backend lit la configuration MySQL depuis les variables d'environnement suivantes:
 
 ```text
-DB_USER=root
-DB_PASSWORD=123456
+DB_USER=
+DB_PASSWORD=
 DB_HOST=localhost
 DB_NAME=dangers_db
 ```
