@@ -82,7 +82,8 @@ function DangersEnAttente() {
                     const newStatus = e.target.value;
                     try {
                       const response = await fetch(`${API_URL}/dangers/${danger.id}/status?status=${newStatus}`, {
-                        method: 'PUT'
+                        method: 'PUT',
+                        headers: { Authorization: `Bearer ${localStorage.getItem("token") || ""}` }
                       });
                       if (!response.ok) {
                         throw new Error('Erreur lors de la mise à jour du statut');
