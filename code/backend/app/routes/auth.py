@@ -72,7 +72,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
 
 # Routes
 @router.post("/register", response_model=Token)
-async def register(user: UserCreate, db: Session = Depends(get_db)):
+async def register(user: UserCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Admin required")
     db_user = await get_user(db, username=user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
