@@ -10,7 +10,7 @@ from app.models.danger import Danger
 router = APIRouter()
 
 # ------------------- GET avec filtre par statut -------------------
-@router.get("/dangers")
+@router.get("/dangers/filter")
 async def get_dangers(status: Optional[str] = Query(None), db: AsyncSession = Depends(get_db)):
     stmt = select(Danger)
     if status:
@@ -32,7 +32,7 @@ class DangerUpdate(BaseModel):
     status: Optional[str] = None
     # ajoute d'autres champs si nécessaire
 
-@router.put("/dangers/{danger_id}")
+@router.put("/dangers/{danger_id}/json")
 async def modifier_danger(danger_id: int, danger_update: DangerUpdate, db: AsyncSession = Depends(get_db)):
     query = await db.execute(select(Danger).where(Danger.id == danger_id))
     danger = query.scalar_one_or_none()
@@ -52,7 +52,7 @@ async def modifier_danger(danger_id: int, danger_update: DangerUpdate, db: Async
 class StatusUpdate(BaseModel):
     status: str
 
-@router.put("/dangers/{danger_id}/status")
+@router.put("/dangers/{danger_id}/status/json")
 async def update_danger_status(danger_id: int, status_update: StatusUpdate, db: AsyncSession = Depends(get_db)):
     stmt = (
         update(Danger)
