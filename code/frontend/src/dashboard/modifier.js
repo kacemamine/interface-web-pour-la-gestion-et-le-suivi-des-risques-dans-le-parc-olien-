@@ -27,7 +27,7 @@ function Modifier() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch(`${API_URL}/dangers`)
+    fetch(`${API_URL}/dangers`, { headers: { Authorization: `Bearer ${localStorage.getItem("token") || ""}` } })
       .then(res => res.json())
       .then(data => setDangers(data))
       .catch(() => setDangers([]));
