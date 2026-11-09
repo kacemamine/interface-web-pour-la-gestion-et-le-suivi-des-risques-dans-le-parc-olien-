@@ -10,7 +10,7 @@ function Supprimer() {
 
   const fetchDangers = async () => {
     try {
-      const res = await axios.get(`${API_URL}/dangers`);
+      const res = await axios.get(`${API_URL}/dangers`, { headers: { Authorization: `Bearer ${localStorage.getItem("token") || ""}` } });
       setDangers(res.data);
     } catch (error) {
       console.error('Erreur récupération dangers :', error);
@@ -28,7 +28,7 @@ function Supprimer() {
     }
 
     try {
-      await axios.delete(`${API_URL}/dangers/${selectedId}`);
+      await axios.delete(`${API_URL}/dangers/${selectedId}`, { headers: { Authorization: `Bearer ${localStorage.getItem("token") || ""}` } });
       alert("✅ Danger supprimé !");
       fetchDangers(); 
       setSelectedId('');
