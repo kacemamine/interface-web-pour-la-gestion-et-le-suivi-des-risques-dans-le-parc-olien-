@@ -1,35 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login2.css';
-import { API_URL } from './config';
+import { useAuth } from '../contexts/AuthContext';
 
 function Login2() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    const formData = new FormData();
-    formData.append('username', e.target.identifiant.value);
-    formData.append('password', e.target.password.value);
-
     try {
-      const response = await fetch(`${API_URL}/auth/token`, {
-        method: 'POST',
-        body: formData
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.access_token);
+      const result = await login(e.target.identifiant.value, e.target.password.value);
+      if (result.success) {
         navigate('/acceuil');
       } else {
-        const errorData = await response.json();
-        setError(errorData.detail || 'Identifiant ou mot de passe incorrect');
+        setError(result.error || 'Identifiant ou mot de passe incorrect');
       }
     } catch (err) {
       setError('Erreur de connexion au serveur');
