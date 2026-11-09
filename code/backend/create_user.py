@@ -23,11 +23,14 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 db = SessionLocal()
 
 try:
-    # Créer un nouvel utilisateur
+    # Require a caller-provided bootstrap password; never ship default admin credentials.
+    admin_password = os.getenv("ADMIN_INITIAL_PASSWORD")
+    if not admin_password or len(admin_password) < 12:
+        raise ValueError("ADMIN_INITIAL_PASSWORD must be set to at least 12 characters")
     new_user = User(
         username="admin",
         email="admin@example.com",
-        hashed_password=get_password_hash("admin123"),
+        hashed_password=get_password_hash(admin_password),
         role="admin"
     )
     
@@ -42,7 +45,7 @@ try:
         print("Utilisateur 'admin' créé avec succès!")
         print("Identifiants de connexion:")
         print("Username: admin")
-        print("Password: admin123")
+        print("Initial admin password was read from ADMIN_INITIAL_PASSWORD")
 
 except Exception as e:
     print(f"Une erreur s'est produite: {e}")

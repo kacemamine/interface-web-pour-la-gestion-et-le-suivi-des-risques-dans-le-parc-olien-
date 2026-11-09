@@ -1,29 +1,33 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends
-from fastapi.security import OAuth2PasswordBearer
+from app.routes.auth import get_current_user
+from app.models.user import User
+from app.database import DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
 import mysql.connector
 import os
 from typing import List, Optional
 
 router = APIRouter()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
+
 
 # Config MySQL
 def get_db_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="123456",
-        database="dangers_db",
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
         autocommit=True
     )
 
-db = get_db_connection()
-cursor = db.cursor(dictionary=True)
+db = None
+cursor = None
 
 # Function to check and reconnect if needed
 def ensure_connection():
     global db, cursor
     try:
+        if db is None:
+            raise mysql.connector.Error("No connection")
         db.ping(reconnect=True, attempts=3, delay=5)
     except mysql.connector.Error as err:
         db = get_db_connection()
@@ -48,6 +52,7 @@ async def ajouter_danger(
     image: Optional[UploadFile] = File(None),
     status: str = Form(default="en_attente")
 ):
+    ensure_connection()
     try:
         print("Données reçues:")
         print(f"type_danger: {type_danger}")
@@ -81,12 +86,14 @@ async def ajouter_danger(
             status = "en_attente"
             
         # Validate file type if image is provided
-        if image and not image.content_type.startswith('image/'):
+        if image and not (image.content_type or '').startswith('image/'):
             raise HTTPException(status_code=400, detail="Le fichier doit être une image")
 
         image_path = None
         if image:
-            filename = image.filename
+            filename = os.path.basename(image.filename or "")
+            if not filename or filename in (".", ".."):
+                raise HTTPException(status_code=400, detail="Invalid filename")
             image_path = os.path.join(UPLOAD_FOLDER, filename)
             with open(image_path, "wb") as buffer:
                 buffer.write(await image.read())
@@ -100,11 +107,13 @@ async def ajouter_danger(
         return {"message": "Danger ajouté avec succès", "status": "success"}
     except Exception as e:
         print(e)
+        if isinstance(e, HTTPException):
+            raise
         raise HTTPException(status_code=500, detail="Erreur lors de l'ajout")
 
 
 @router.get("", response_model=List[dict])
-async def lister_dangers(token: str = Depends(oauth2_scheme)):
+async def lister_dangers(current_user: User = Depends(get_current_user)):
     try:
         ensure_connection()
         cursor.execute("SELECT * FROM dangers")
@@ -131,8 +140,10 @@ async def modifier_danger(
     dommages: str = Form(...),
     declarant: str = Form(...),
     image: Optional[UploadFile] = File(None),
-    status: str = Form("en_attente")
+    status: str = Form("en_attente"),
+    current_user: User = Depends(get_current_user)
 ):
+    ensure_connection()
     try:
         print(f"Modification demandée pour id={danger_id}")
         print(f"Données reçues: type_danger={type_danger}, lieu={lieu}, date={date}, heure={heure}, personne_concernee={personne_concernee}, source_danger={source_danger}, description={description}, dommages={dommages}, declarant={declarant}, status={status}")
@@ -166,11 +177,14 @@ async def modifier_danger(
         return {"message": "Danger modifié avec succès"}
     except Exception as e:
         print(f"Erreur lors de la modification: {e}")
+        if isinstance(e, HTTPException):
+            raise
         raise HTTPException(status_code=500, detail="Erreur lors de la modification")
 
 
 @router.delete("/{danger_id}")
-async def supprimer_danger(danger_id: int):
+async def supprimer_danger(danger_id: int, current_user: User = Depends(get_current_user)):
+    ensure_connection()
     try:
         sql = "DELETE FROM dangers WHERE id=%s"
         cursor.execute(sql, (danger_id,))
@@ -182,7 +196,10 @@ async def supprimer_danger(danger_id: int):
 
 # ------------------- Mise à jour uniquement du statut -------------------
 @router.put("/{danger_id}/status")
-async def update_danger_status(danger_id: int, status: str):
+async def update_danger_status(danger_id: int, status: str, current_user: User = Depends(get_current_user)):
+    if status not in ("en_attente", "corrige"):
+        raise HTTPException(status_code=422, detail="Invalid status")
+    ensure_connection()
     try:
         sql = "UPDATE dangers SET status=%s WHERE id=%s"
         cursor.execute(sql, (status, danger_id))

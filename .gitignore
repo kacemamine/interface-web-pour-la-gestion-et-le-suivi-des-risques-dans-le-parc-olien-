@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Frontend
+node_modules/
+build/
+
+# Credentials
+.env
+.env.*
+!.env.example
+
+# Runtime-generated files
+code/backend/uploads/
+code/backend/QR/
+QR/
+
+# Local development
+.DS_Store
+*.log

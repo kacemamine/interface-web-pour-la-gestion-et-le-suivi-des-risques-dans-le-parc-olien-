@@ -14,7 +14,7 @@ const Statistiques = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch(`${API_URL}/statistiques`);
+      const response = await fetch(`${API_URL}/statistiques`, { headers: { Authorization: `Bearer ${localStorage.getItem("token") || ""}` } });
       if (!response.ok) {
         throw new Error('Erreur lors du chargement des statistiques');
       }
@@ -41,7 +41,7 @@ const Statistiques = () => {
 
   useEffect(() => {
     fetchStats(); 
-    const interval = setInterval(fetchStats, 100); 
+    const interval = setInterval(fetchStats, 30000); 
     return () => clearInterval(interval); 
   }, []);
 
@@ -76,7 +76,7 @@ const Statistiques = () => {
           <div className="bar-chart">
             {stats.typesDeDanger.map((type, index) => (
               <div key={index} className="bar-item">
-                <div className="bar" style={{ height: `${(type.count / stats.totalDangers) * 100}%` }}>
+                <div className="bar" style={{ height: `${(type.count / (stats.totalDangers || 1)) * 100}%` }}>
                   <span className="bar-value">{type.count}</span>
                 </div>
                 <span className="bar-label">{type.name}</span>

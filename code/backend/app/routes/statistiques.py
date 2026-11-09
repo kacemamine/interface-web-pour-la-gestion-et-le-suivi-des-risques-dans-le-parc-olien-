@@ -3,12 +3,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.models.user import User
 from app.models.danger import Danger
+from app.routes.auth import get_current_user
 from sqlalchemy import select, func, extract, case
 
 router = APIRouter()
 
 @router.get("/statistiques")
-async def get_statistiques(db: AsyncSession = Depends(get_db)):
+async def get_statistiques(db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_user)):
     # Total users
     total_users = (await db.execute(select(func.count()).select_from(User))).scalar()
     # Dangers en attente (status == 'en_attente' ou '⚠️')

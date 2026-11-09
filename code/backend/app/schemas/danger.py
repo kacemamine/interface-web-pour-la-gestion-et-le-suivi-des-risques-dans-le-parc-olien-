@@ -11,8 +11,8 @@ class DangerBase(BaseModel):
     source_danger: str
     description: str
     dommages: str
-    declare_par: str
-    image_url: Optional[str] = None
+    declarant: str
+    image: Optional[str] = None
 
 class DangerCreate(DangerBase):
     pass

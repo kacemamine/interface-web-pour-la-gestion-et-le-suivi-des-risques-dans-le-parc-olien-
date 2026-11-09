@@ -58,7 +58,7 @@ def get_allowed_origins() -> List[str]:
     except Exception as e:
         print(f"Warning: Error getting IP addresses: {e}")
         # En cas d'erreur, autoriser toutes les origines
-        origins = ["*"]
+        pass
     
     return origins
 
@@ -80,7 +80,8 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 @app.on_event("startup")
 async def startup() -> None:
-    # Créer les tables au démarrage
+    # Register models before creating tables
+    from app.models import user, danger  # noqa: F401
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     print("Origines CORS autorisées:", get_allowed_origins())

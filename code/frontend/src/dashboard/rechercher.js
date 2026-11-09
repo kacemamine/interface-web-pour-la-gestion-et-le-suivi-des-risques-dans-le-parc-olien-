@@ -10,7 +10,7 @@ const Rechercher = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${API_URL}/dangers`)
+    fetch(`${API_URL}/dangers`, { headers: { Authorization: `Bearer ${localStorage.getItem("token") || ""}` } })
       .then(res => res.json())
       .then(data => {
         setDangers(data || []);
