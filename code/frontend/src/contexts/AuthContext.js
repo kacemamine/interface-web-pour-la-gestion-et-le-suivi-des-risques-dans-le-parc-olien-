@@ -66,14 +66,9 @@ export const AuthProvider = ({ children }) => {
       }
 
       const userData = await userResponse.json();
-      if (userData.role === 'admin') {
-        localStorage.setItem('token', data.access_token);
-        setUser(userData);
-        return { success: true };
-      } else {
-        alert('Accès refusé - Seuls les administrateurs peuvent se connecter');
-        return { success: false, error: "Accès refusé - Utilisateur non administrateur" };
-      }
+      localStorage.setItem('token', data.access_token);
+      setUser(userData);
+      return { success: true };
     } catch (error) {
       return { success: false, error: 'Erreur de connexion au serveur' };
     }
