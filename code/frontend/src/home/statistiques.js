@@ -14,7 +14,7 @@ const Statistiques = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch(`${API_URL}/statistiques`);
+      const response = await fetch(`${API_URL}/statistiques`, { headers: { Authorization: `Bearer ${localStorage.getItem("token") || ""}` } });
       if (!response.ok) {
         throw new Error('Erreur lors du chargement des statistiques');
       }
