@@ -27,11 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/login2" element={<Login2 />} />
 
-        <Route path="/visiteur" element={
-          <PrivateRoute>
-            <Visiteur />
-          </PrivateRoute>
-        } />
+        <Route path="/visiteur" element={<Visiteur />} />
 
         <Route path="/acceuil" element={
           <PrivateRoute>
