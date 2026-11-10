@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './login.css';
 
 const Login = () => {
+  const navigate = useNavigate();
   const handleLogin = () => {
-    window.location.href = '/login2';
+    navigate('/login2');
   };
 
   return (

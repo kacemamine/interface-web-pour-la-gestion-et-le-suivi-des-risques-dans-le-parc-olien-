@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import './login2.css';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -7,7 +7,7 @@ function Login2() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { user, login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,7 +17,7 @@ function Login2() {
     try {
       const result = await login(e.target.identifiant.value, e.target.password.value);
       if (result.success) {
-        navigate('/acceuil');
+        navigate('/acceuil', { replace: true });
       } else {
         setError(result.error || 'Identifiant ou mot de passe incorrect');
       }
@@ -27,6 +27,8 @@ function Login2() {
       setLoading(false);
     }
   };
+
+  if (user) return <Navigate to="/acceuil" replace />;
 
   return (
     <div className="login-background"

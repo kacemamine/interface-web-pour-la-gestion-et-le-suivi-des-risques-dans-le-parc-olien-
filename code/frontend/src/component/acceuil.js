@@ -1,43 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Sidebar from './sidebar';
-import { API_URL } from './config';
+import { useAuth } from '../contexts/AuthContext';
 import './acceuil.css';
 
 const Accueil = () => {
-  const [user, setUser] = useState('');
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login2');
-        return;
-      }
-
-      try {
-        const response = await fetch(`${API_URL}/auth/users/me`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('Erreur d\'authentification');
-        }
-
-        const userData = await response.json();
-        setUser(userData);
-      } catch (error) {
-        console.error('Erreur:', error);
-        localStorage.removeItem('token');
-        navigate('/login2');
-      }
-    };
-
-    fetchUserData();
-  }, [navigate]);
+  const handleLogout = () => {
+    logout();
+    navigate('/', { replace: true });
+  };
 
   return (
        <div
@@ -53,9 +27,9 @@ const Accueil = () => {
 
       <div className="content-wrapper">
         <div className="top-bar">
-          <Link to="/" className="logout-btn-wrapper">
-            <button className="logout-btn">Déconnexion</button>
-          </Link>
+          <div className="logout-btn-wrapper">
+            <button className="logout-btn" onClick={handleLogout}>Déconnexion</button>
+          </div>
         </div>
 
         <main className="main-content">
